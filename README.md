@@ -5,7 +5,11 @@ is mostly the default Express app that is created by express-generator.
 
 Requirements: Node <https://nodejs.org>
 
-1. Clone repo
+##How to run
+
+1. Clone the repo
+2. Open terminal to repo
+3. Run the following:
 
 ```
 npm install && npm start
