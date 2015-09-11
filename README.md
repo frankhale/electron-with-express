@@ -1,9 +1,12 @@
 # electron-with-express
 
-A simple project which uses Express to serve resources to an Electron app. This
-is mostly the default Express app that is created by express-generator.
+A simple project which uses Express to serve resources to an Electron app. This is mostly the default Express app that is created by express-generator.
 
-Requirements: Node <https://nodejs.org>
+NOTE: This is just a simple app for demonstration purposes. When Electron opens it will request the default route from my Express server
+and open a page which uses the YouTube iframe API to play a video on
+YouTube.
+
+Requirements: Node &lt;https://nodejs.org&gt;
 
 ##How to run
 
