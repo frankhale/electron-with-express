@@ -11,12 +11,15 @@ app.on('window-all-closed', function() {
 app.on('ready', function() {
   mainWindow = new BrowserWindow({
   "auto-hide-menu-bar": true,
+  "web-preferences": {
+    "node-integration": false
+  },
 	width: 600,
 	height: 400});
 
 	mainWindow.loadUrl('http://127.0.0.1:3000/');
   //mainWindow.openDevTools();
-  
+
   mainWindow.on('closed', function() {
     mainWindow = null;
   });
