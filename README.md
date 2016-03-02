@@ -1,12 +1,13 @@
 # electron-with-express
 
-A simple project which uses Express to serve resources to an Electron app. This is mostly the default Express app that is created by express-generator.
-
-NOTE: This is just a simple app for demonstration purposes. When Electron opens it will request the default route from my Express server
-and open a page which uses the YouTube iframe API to play a video on
-YouTube.
+A simple project which uses Express to serve resources to an Electron app. This
+is mostly the default Express app that is created by express-generator mixed
+into a fairly vanilla boilerplate Electron main.js file.
 
 Requirements: Node &lt;https://nodejs.org&gt;
+
+NOTE: Electron will be downloaded as a npm module when you run npm install in
+the "How to run" steps.
 
 ##How to run
 
@@ -21,8 +22,8 @@ npm install && npm start
 ## Author(s)
 
 Frank Hale &lt;frankhale@gmail.com&gt;  
-10 September 2015
+2 March 2016
 
 ## License
 
-GNU GPL v2 - see [LICENSE](LICENSE)
+GNU GPL v3 - see [LICENSE](LICENSE)

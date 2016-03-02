@@ -1,16 +1,5 @@
 body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  overflow: hidden;
-  padding:0;
-  margin:0;
-}
-
-a {
-  color: #00B7FF;
-}
-
-#player {
-  position: absolute;
-  width:100%;
-  height:100%;
+  padding:10;
+  margin:10;
 }
