@@ -24,7 +24,7 @@ When the Electron app starts it will spawn the Express app using an external
 copy of Node. This allows the Express app to run outside the Electron process.
 
 Additionally you'll need a full install of Node in order to download the Node
-Modules.
+Modules and start the app.
 
 ## Additional Information
 
@@ -38,7 +38,8 @@ The `express-app` folder is just a vanilla Express generated app using
 3. Make sure a copy of `Node.exe` and `Node.dll` are copied to the root of the code repository.
 4. Run `npm install`.
 5. Change directories to the express-app folder and run `npm install`.
-6. Run `npm start` to start the application.
+6. Change directories back to the root of the code repository.
+7. Run `npm start` to start the application.
 
 ## Author(s)
 
