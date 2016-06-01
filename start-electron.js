@@ -1,3 +1,3 @@
-const electron = require('electron-prebuilt');
-const proc = require('child_process');
-const child = proc.spawn(electron, ['.']);
+const electron = require('electron-prebuilt'),
+      proc = require('child_process'),
+      child = proc.spawn(electron, ['.']);

@@ -1,26 +1,49 @@
 # electron-with-express
 
-A simple project which uses Express to serve resources to an Electron app. This
-is mostly the default Express app that is created by express-generator mixed
-into a fairly vanilla boilerplate Electron main.js file.
+A simple project demonstrating how to spawn an Express app from Electron as well
+as providing server logs directly in the Electron app.
 
-Requirements: Node &lt;https://nodejs.org&gt; and Bower &lt;https://bower.io&gt;
+Express App:
 
-NOTE: Electron will be downloaded as a npm module when you run npm install in
-the "How to run" steps.
+![Express-App](screenshots/express-app.png)
 
-##How to run
+Press 'F1' to show the server log:
 
-1. Clone the repo
-2. Open terminal to repo
-3. Run `npm install`
-4. Run `bower install`
-5. Run `npm start` to start the application
+![Server-Log](screenshots/server-log.png)
+
+## Dependencies
+
+We'll need a copy of the `Node.exe` and `Node.lib`:
+
+https://nodejs.org/dist/v6.2.0/win-x64/ (or equivalent version for your system)
+
+After downloading a copy of this repository place them in the root of the code
+folder.
+
+When the Electron app starts it will spawn the Express app using an external
+copy of Node. This allows the Express app to run outside the Electron process.
+
+Additionally you'll need a full install of Node in order to download the Node
+Modules.
+
+## Additional Information
+
+The `express-app` folder is just a vanilla Express generated app using
+`express-generator`.
+
+## How to run
+
+1. Clone the code repository.
+2. Open terminal to code repository.
+3. Make sure a copy of `Node.exe` and `Node.dll` are copied to the root of the code repository.
+4. Run `npm install`.
+5. Change directories to the express-app folder and run `npm install`.
+6. Run `npm start` to start the application.
 
 ## Author(s)
 
 Frank Hale &lt;frankhale@gmail.com&gt;  
-15 March 2016
+1 June 2016
 
 ## License
 
