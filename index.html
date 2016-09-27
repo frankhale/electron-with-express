@@ -58,7 +58,7 @@
 
       const expressAppUrl = "http://localhost:3000",
             spawn = require("child_process").spawn,
-            node = spawn("node.exe", ["./express-app/bin/www"], { cwd: process.cwd() }),
+            node = spawn(".\\node.exe", ["./express-app/bin/www"], { cwd: process.cwd() }),
             request = require("request"),
             _ = require("lodash"),
             key = require("keymaster"),
