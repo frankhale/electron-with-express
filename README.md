@@ -15,7 +15,7 @@ Press 'F1' to show the server log:
 
 We'll need a copy of the `Node.exe` and `Node.lib`:
 
-https://nodejs.org/dist/v6.3.1/win-x64/ (or equivalent version for your system)
+https://nodejs.org/dist/v6.6.0/win-x64/ (or equivalent version for your system)
 
 After downloading a copy of this repository place them in the root of the code
 folder.
@@ -33,7 +33,7 @@ The `express-app` folder is just a vanilla Express generated app using
 1. Clone the code repository.
 2. Open terminal to code repository.
 3. Make sure a copy of `Node.exe` and `Node.dll` are copied to the root of the code repository.
-4. Run `npm install`.
+4. Run `npm install`. (See Dependencies above)
 5. Change directories to the express-app folder and run `npm install`.
 6. Change directories back to the root of the code repository.
 7. Run `npm start` to start the application.
@@ -41,7 +41,7 @@ The `express-app` folder is just a vanilla Express generated app using
 ## Author(s)
 
 Frank Hale &lt;frankhale@gmail.com&gt;  
-9 August 2016
+27 September 2016
 
 ## License
 

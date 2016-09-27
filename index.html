@@ -99,9 +99,6 @@
         });
       }
 
-      redirectOutput(node.stdout);
-      redirectOutput(node.stderr);
-
       function checkServerRunning() {
         request(expressAppUrl, function (error, response, body) {
           if (!error && response.statusCode == 200) {
@@ -113,6 +110,9 @@
           }
         });
       }
+
+      redirectOutput(node.stdout);
+      redirectOutput(node.stderr);
 
       checkServerRunning();
     </script>
