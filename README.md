@@ -13,6 +13,8 @@ Press 'F1' to show the server log:
 
 ## Dependencies
 
+#### Before start: Please note that this approach is intended to use in windows platform, any other OS approach would need some changes, contributions are very welcome
+
 We'll need a copy of the `Node.exe` and `Node.lib`:
 
 https://nodejs.org/dist/v6.6.0/win-x64/ (or equivalent version for your system)
