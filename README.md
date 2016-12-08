@@ -15,15 +15,15 @@ Press 'F1' to show the server log:
 
 #### Before start: Please note that this approach is intended to use in windows platform, any other OS approach would need some changes, contributions are very welcome
 
-We'll need a copy of the `Node.exe` and `Node.lib`:
-
-https://nodejs.org/dist/v6.6.0/win-x64/ (or equivalent version for your system)
+We'll need a copy of the `Node.exe` and `Node.lib`: [https://nodejs.org/dist/v7.2.1/win-x64/](https://nodejs.org/dist/v7.2.1/win-x64/)
 
 After downloading a copy of this repository place them in the root of the code
-folder.
-
-When the Electron app starts it will spawn the Express app using an external
+folder. When the Electron app starts it will spawn the Express app using an external
 copy of Node. This allows the Express app to run outside the Electron process.
+
+Here is a screenshot of the file layout:
+
+![File-Layout](screenshots/file-layout.png)
 
 ## Additional Information
 
@@ -62,7 +62,7 @@ additional changes are required.
 ## Author(s)
 
 Frank Hale &lt;frankhale@gmail.com&gt;  
-7 December 2016
+8 December 2016
 
 ## License
 
