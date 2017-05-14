@@ -46,7 +46,7 @@ code repository.
 If you would like to package this using `electron-packager` you'll need to 
 make the following change:
 
-In index.html (line ~59):
+In index.html (line ~65):
 
 ```javascript
 app = require('electron').remote.app,
@@ -59,10 +59,37 @@ electron to start the app.
 That said, I'm assuming the platform is Windows. If other platforms are desirable
 additional changes are required.
 
+## Running on Linux
+
+Download standalone distribution of Node:
+[https://nodejs.org/dist/latest-v7.x/node-v7.10.0-linux-x64.tar.gz](https://nodejs.org/dist/latest-v7.x/node-v7.10.0-linux-x64.tar.gz)
+
+Unpack it into the root of the cloned repository. Then create a symbolic link called 'node' at the same location.
+
+```sh
+ln -sf node-v7.10.0-linux-x64/bin/node node
+```
+
+Here is a screenshot of what it should look like:
+
+![File-Layout-Linux](screenshots/express-with-electron-linux-folder-structure-screenshot.png)
+
+Change line 65 in index.html to the following:
+
+```javascript
+node = spawn("./node", ["./express-app/bin/www"], { cwd: process.cwd() })
+```
+
+Then you can run it:
+
+```sh
+./node start-electron.js &
+```
+
 ## Author(s)
 
 Frank Hale &lt;frankhale@gmail.com&gt;  
-8 December 2016
+14 May 2017
 
 ## License
 
