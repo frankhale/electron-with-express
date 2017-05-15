@@ -66,7 +66,7 @@ Download standalone distribution of Node:
 
 Unpack it into the root of the cloned repository. Then create a symbolic link called 'node' at the same location.
 
-```sh
+```
 ln -sf node-v7.10.0-linux-x64/bin/node node
 ```
 
@@ -80,10 +80,24 @@ Change line 65 in index.html to the following:
 node = spawn("./node", ["./express-app/bin/www"], { cwd: process.cwd() })
 ```
 
-Then you can run it:
+Then you can run it like this:
 
-```sh
+```
 ./node start-electron.js &
+```
+
+Or edit the scripts section in 'package.json' and change it to:
+
+```json
+  "scripts": {
+    "start": "./node start-electron.js"
+  },
+```
+
+Then run
+
+```
+npm start
 ```
 
 ## Author(s)
