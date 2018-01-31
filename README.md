@@ -15,11 +15,10 @@ Press 'F1' to show the server log:
 
 #### Before start: Please note that this approach is intended to use in windows platform, any other OS approach would need some changes, contributions are very welcome
 
-We'll need a copy of the `Node.exe` and `Node.lib`: [https://nodejs.org/dist/v7.2.1/win-x64/](https://nodejs.org/dist/v7.2.1/win-x64/)
+We'll need a copy of the `Node.exe` and `Node.lib`: [https://nodejs.org/dist/v9.4.0/win-x64/](https://nodejs.org/dist/v9.4.0/win-x64/)
 
 After downloading a copy of this repository place them in the root of the code
-folder. When the Electron app starts it will spawn the Express app using an external
-copy of Node. This allows the Express app to run outside the Electron process.
+folder. When the Electron app starts it will spawn the Express app using an external copy of Node. This allows the Express app to run outside the Electron process.
 
 Here is a screenshot of the file layout:
 
@@ -28,14 +27,14 @@ Here is a screenshot of the file layout:
 ## Additional Information
 
 The `express-app` folder is just a vanilla Express generated app using
-`express-generator`.
+`express-generator`. Actually, this used to be the case but I moved the default routes from the routes folder to the root to make it a little easier to follow.
 
 ## How to run
 
 1. Clone the code repository.
 2. Open terminal to code repository.
-3. Make sure a copy of `Node.exe` and `Node.lib` are copied to the root of the 
-code repository.
+3. Make sure a copy of `Node.exe` and `Node.lib` are copied to the root of the
+   code repository.
 4. Run `npm install`. (See Dependencies above)
 5. Change directories to the express-app folder and run `npm install`.
 6. Change directories back to the root of the code repository.
@@ -43,31 +42,31 @@ code repository.
 
 ## Package with Electron-Packager
 
-If you would like to package this using `electron-packager` you'll need to 
+If you would like to package this using `electron-packager` you'll need to
 make the following change:
 
 In index.html (line ~65):
 
 ```javascript
-app = require('electron').remote.app,
-node = spawn(".\\node.exe", ["./express-app/bin/www"], { cwd: app.getAppPath() })
+(app = require("electron").remote.app),
+  (node = spawn(".\\node.exe", ["./express-app/bin/www"], {
+    cwd: app.getAppPath()
+  }));
 ```
 
-This makes sure the path to our local copy of `node.exe` is correct when we run
-electron to start the app.
+This makes sure the path to our local copy of `node.exe` is correct when we run electron to start the app.
 
-That said, I'm assuming the platform is Windows. If other platforms are desirable
-additional changes are required.
+That said, I'm assuming the platform is Windows. If other platforms are desirable additional changes are required.
 
 ## Running on Linux
 
 Download standalone distribution of Node:
-[https://nodejs.org/dist/latest-v7.x/node-v7.10.0-linux-x64.tar.gz](https://nodejs.org/dist/latest-v7.x/node-v7.10.0-linux-x64.tar.gz)
+[https://nodejs.org/dist/v9.4.0/node-v9.4.0-linux-x64.tar.gz](https://nodejs.org/dist/v9.4.0/node-v9.4.0-linux-x64.tar.gz)
 
 Unpack it into the root of the cloned repository. Then create a symbolic link called 'node' at the same location.
 
 ```
-ln -sf node-v7.10.0-linux-x64/bin/node node
+ln -sf node-v9.4.0-linux-x64/bin/node node
 ```
 
 Here is a screenshot of what it should look like:
@@ -77,7 +76,7 @@ Here is a screenshot of what it should look like:
 Change line 65 in index.html to the following:
 
 ```javascript
-node = spawn("./node", ["./express-app/bin/www"], { cwd: process.cwd() })
+node = spawn("./node", ["./express-app/bin/www"], { cwd: process.cwd() });
 ```
 
 Then you can run it like this:
@@ -103,7 +102,7 @@ npm start
 ## Author(s)
 
 Frank Hale &lt;frankhale@gmail.com&gt;  
-14 May 2017
+31 January 2018
 
 ## License
 
