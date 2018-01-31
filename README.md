@@ -48,10 +48,10 @@ make the following change:
 In index.html (line ~65):
 
 ```javascript
-(app = require("electron").remote.app),
-  (node = spawn(".\\node.exe", ["./express-app/bin/www"], {
-    cwd: app.getAppPath()
-  }));
+app = require("electron").remote.app),
+node = spawn(".\\node.exe", ["./express-app/bin/www"], {
+  cwd: app.getAppPath()
+});
 ```
 
 This makes sure the path to our local copy of `node.exe` is correct when we run electron to start the app.
