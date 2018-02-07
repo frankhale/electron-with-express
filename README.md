@@ -58,6 +58,27 @@ This makes sure the path to our local copy of `node.exe` is correct when we run 
 
 That said, I'm assuming the platform is Windows. If other platforms are desirable additional changes are required.
 
+## Package with Electron-Packager (ASAR)
+
+In this scenario you will not need to have Node.exe and Node.lib like the README states. Using `child_process.fork` instead of `child_process.spawn` allows our code to work in exactly the same way but Electron will be used to spawn a new process for the Express server instead of our copy of Node. 
+
+In `index.html` around line 64 change the code to:
+
+```javascript
+app = require('electron').remote.app,
+node = require("child_process")
+  .fork(`${app.getAppPath()}/express-app/bin/www`,
+    [], {
+      stdio: ['pipe', 'pipe', 'pipe', 'ipc'],
+    })
+```
+
+You can then package the code up using the command line:
+
+```
+electron-packager . --overwrite --platform=win32 --arch=x64 --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"Electron-With-Express\" --asar
+```
+
 ## Running on Linux
 
 Download standalone distribution of Node:
@@ -102,7 +123,7 @@ npm start
 ## Author(s)
 
 Frank Hale &lt;frankhale@gmail.com&gt;  
-31 January 2018
+8 February 2018
 
 ## License
 
