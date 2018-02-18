@@ -120,10 +120,39 @@ Then run
 npm start
 ```
 
+## Running on OSX
+
+- Download node binaries for OSX and extract the files.
+- Copy the file called "node" into the root folder. There is no need of any other file (node.lib)
+
+In **index.html** change the line
+```
+node = spawn(".\\node", ["./express-app/bin/www"], {
+```
+to
+```
+node = spawn("./node", ["./express-app/bin/www"], {
+```
+
+In **package.json** change the line
+```
+"start": ".\\node start-electron.js"
+```
+to
+```
+"start": "./node start-electron.js"
+```
+
+Then run
+
+```
+npm start
+```
+
 ## Author(s)
 
 Frank Hale &lt;frankhale@gmail.com&gt;  
-8 February 2018
+18 February 2018
 
 ## License
 
