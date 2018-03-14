@@ -60,7 +60,8 @@
   <script>
     window.$ = window.jQuery = require("./node_modules/jquery/dist/jquery.min.js");
 
-    const expressAppUrl = "http://127.0.0.1:3000",
+    const { ipcRenderer } = require('electron'),
+      expressAppUrl = "http://127.0.0.1:3000",
       spawn = require("child_process").spawn,
       // For electron-packager change cwd in spawn to app.getAppPath() and
       // uncomment the app require below
@@ -74,6 +75,14 @@
       $serverLog = $("#serverLog"),
       $expressApp = $("#expressApp"),
       $loading = $("#loading");
+
+    ipcRenderer.on('stop-server', (event, data) => {
+      // This is okay for now but there is a better solution. We can use IPC to
+      // tell the server (the Express app itself) to gracefully shutdown. This
+      // would be much better especially if we had database connections or other
+      // resources we were using that needed to be cleaned up.
+      node.kill('SIGINT');
+    });
 
     key("f1", () => {
       if ($serverLog.css("display") === "none") {

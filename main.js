@@ -12,23 +12,26 @@ function createWindow() {
   });
   mainWindow.loadURL(`file://${__dirname}/index.html`);
   //mainWindow.webContents.openDevTools();
-  mainWindow.on("closed", function() {
+  mainWindow.on('close', () => {
+    mainWindow.webContents.send('stop-server');
+  });
+  mainWindow.on("closed", () => {
     mainWindow = null;
   });
 }
 
 app.on("ready", createWindow);
-app.on("browser-window-created", function(e, window) {
+app.on("browser-window-created", function (e, window) {
   window.setMenu(null);
 });
 
-app.on("window-all-closed", function() {
+app.on("window-all-closed", function () {
   if (process.platform !== "darwin") {
     app.quit();
   }
 });
 
-app.on("activate", function() {
+app.on("activate", function () {
   if (mainWindow === null) {
     createWindow();
   }
