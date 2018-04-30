@@ -31,14 +31,14 @@ The `express-app` folder is just a vanilla Express generated app using
 
 ## How to run
 
-1. Clone the code repository.
-2. Open terminal to code repository.
-3. Make sure a copy of `Node.exe` and `Node.lib` are copied to the root of the
-   code repository.
-4. Run `npm install`. (See Dependencies above)
-5. Change directories to the express-app folder and run `npm install`.
-6. Change directories back to the root of the code repository.
-7. Run `npm start` to start the application.
+1.  Clone the code repository.
+2.  Open terminal to code repository.
+3.  Make sure a copy of `Node.exe` and `Node.lib` are copied to the root of the
+    code repository.
+4.  Run `npm install`. (See Dependencies above)
+5.  Change directories to the express-app folder and run `npm install`.
+6.  Change directories back to the root of the code repository.
+7.  Run `npm start` to start the application.
 
 ## Package with Electron-Packager
 
@@ -60,17 +60,19 @@ That said, I'm assuming the platform is Windows. If other platforms are desirabl
 
 ## Package with Electron-Packager (ASAR)
 
-In this scenario you will not need to have Node.exe and Node.lib like the README states. Using `child_process.fork` instead of `child_process.spawn` allows our code to work in exactly the same way but Electron will be used to spawn a new process for the Express server instead of our copy of Node. 
+In this scenario you will not need to have Node.exe and Node.lib like the README states. Using `child_process.fork` instead of `child_process.spawn` allows our code to work in exactly the same way but Electron will be used to spawn a new process for the Express server instead of our copy of Node.
 
 In `index.html` around line 64 change the code to:
 
 ```javascript
-app = require('electron').remote.app,
-node = require("child_process")
-  .fork(`${app.getAppPath()}/express-app/bin/www`,
-    [], {
-      stdio: ['pipe', 'pipe', 'pipe', 'ipc'],
-    })
+(app = require("electron").remote.app),
+  (node = require("child_process").fork(
+    `${app.getAppPath()}/express-app/bin/www`,
+    [],
+    {
+      stdio: ["pipe", "pipe", "pipe", "ipc"]
+    }
+  ));
 ```
 
 You can then package the code up using the command line:
@@ -122,23 +124,29 @@ npm start
 
 ## Running on OSX
 
-- Download node binaries for OSX and extract the files.
-- Copy the file called "node" into the root folder. There is no need of any other file (node.lib)
+* Download node binaries for OSX and extract the files.
+* Copy the file called "node" into the root folder. There is no need of any other file (node.lib)
 
 In **index.html** change the line
+
 ```
 node = spawn(".\\node", ["./express-app/bin/www"], {
 ```
+
 to
+
 ```
 node = spawn("./node", ["./express-app/bin/www"], {
 ```
 
 In **package.json** change the line
+
 ```
 "start": ".\\node start-electron.js"
 ```
+
 to
+
 ```
 "start": "./node start-electron.js"
 ```
@@ -151,9 +159,9 @@ npm start
 
 ## Author(s)
 
-Frank Hale &lt;frankhale@gmail.com&gt;  
-18 February 2018
+Frank Hale &lt;frankhale@gmail.com&gt;
+30 April 2018
 
 ## License
 
-GNU GPL v3 - see [LICENSE](LICENSE)
+MIT - see [LICENSE](LICENSE)
