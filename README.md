@@ -65,14 +65,13 @@ In this scenario you will not need to have Node.exe and Node.lib like the README
 In `index.html` around line 64 change the code to:
 
 ```javascript
-(app = require("electron").remote.app),
-  (node = require("child_process").fork(
+app = require("electron").remote.app),
+node = require("child_process").fork(
     `${app.getAppPath()}/express-app/bin/www`,
     [],
     {
       stdio: ["pipe", "pipe", "pipe", "ipc"]
-    }
-  ));
+    };
 ```
 
 You can then package the code up using the command line:
