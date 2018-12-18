@@ -15,7 +15,7 @@ Press 'F1' to show the server log:
 
 #### Before start: Please note that this approach is intended to use in windows platform, any other OS approach would need some changes, contributions are very welcome
 
-We'll need a copy of the `Node.exe` and `Node.lib`: [https://nodejs.org/dist/v9.4.0/win-x64/](https://nodejs.org/dist/v9.4.0/win-x64/)
+We'll need a copy of the `Node.exe` and `Node.lib`: [https://nodejs.org/dist/v11.4.0/win-x64/](https://nodejs.org/dist/v11.4.0/win-x64/)
 
 After downloading a copy of this repository place them in the root of the code
 folder. When the Electron app starts it will spawn the Express app using an external copy of Node. This allows the Express app to run outside the Electron process.
@@ -83,12 +83,12 @@ electron-packager . --overwrite --platform=win32 --arch=x64 --prune=true --out=r
 ## Running on Linux
 
 Download standalone distribution of Node:
-[https://nodejs.org/dist/v9.4.0/node-v9.4.0-linux-x64.tar.gz](https://nodejs.org/dist/v9.4.0/node-v9.4.0-linux-x64.tar.gz)
+[https://nodejs.org/dist/v11.4.0/node-v11.4.0-linux-x64.tar.gz](https://nodejs.org/dist/v11.4.0/node-v11.4.0-linux-x64.tar.gz)
 
 Unpack it into the root of the cloned repository. Then create a symbolic link called 'node' at the same location.
 
 ```
-ln -sf node-v9.4.0-linux-x64/bin/node node
+ln -sf node-v11.4.0-linux-x64/bin/node node
 ```
 
 Here is a screenshot of what it should look like:
@@ -123,8 +123,8 @@ npm start
 
 ## Running on OSX
 
-* Download node binaries for OSX and extract the files.
-* Copy the file called "node" into the root folder. There is no need of any other file (node.lib)
+- Download node binaries for OSX and extract the files.
+- Copy the file called "node" into the root folder. There is no need of any other file (node.lib)
 
 In **index.html** change the line
 
@@ -159,7 +159,7 @@ npm start
 ## Author(s)
 
 Frank Hale &lt;frankhale@gmail.com&gt;
-30 April 2018
+18 December 2018
 
 ## License
 
