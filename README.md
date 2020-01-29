@@ -21,12 +21,10 @@ routes from the routes folder to the root to make it a little easier to follow.
 
 1.  Clone the code repository.
 2.  Open terminal to code repository.
-3.  Make sure a copy of `Node.exe` and `Node.lib` are copied to the root of the
-    code repository.
-4.  Run `npm install`. (See Dependencies above)
-5.  Change directories to the express-app folder and run `npm install`.
-6.  Change directories back to the root of the code repository.
-7.  Run `npm start` to start the application.
+3.  Run `npm install`. (See Dependencies above)
+4.  Change directories to the express-app folder and run `npm install`.
+5.  Change directories back to the root of the code repository.
+6.  Run `npm start` to start the application.
 
 ## Package with Electron-Packager
 
