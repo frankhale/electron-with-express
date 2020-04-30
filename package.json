@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "electron": "8.2.0",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "keymaster": "^1.6.2",
     "lodash": "^4.17.15",
     "node": "^13.12.0",
