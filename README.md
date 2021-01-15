@@ -7,9 +7,7 @@ Express App:
 
 ![Express-App](screenshots/express-app.png)
 
-Press 'F1' to show the server log:
-
-**NOTE: Keybinds no longer work, need to figure out why**
+Press `Alt+CommandOrControl+L` to show the server log:
 
 ![Server-Log](screenshots/server-log.png)
 

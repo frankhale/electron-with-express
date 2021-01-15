@@ -1,6 +1,4 @@
-const electron = require("electron"),
-  app = electron.app,
-  BrowserWindow = electron.BrowserWindow;
+const { app, globalShortcut, BrowserWindow } = require('electron');
 
 let mainWindow;
 
@@ -23,19 +21,14 @@ function createWindow() {
   });
 }
 
-app.on("ready", createWindow);
-app.on("browser-window-created", function(e, window) {
-  window.setMenu(null);
-});
-
 app.on("window-all-closed", function() {
   if (process.platform !== "darwin") {
     app.quit();
   }
 });
 
-app.on("activate", function() {
-  if (mainWindow === null) {
-    createWindow();
-  }
-});
+app.whenReady().then(() => {
+  globalShortcut.register("Alt+CommandOrControl+L", () => {
+    mainWindow.webContents.send("show-server-log");
+  })
+}).then(createWindow);
