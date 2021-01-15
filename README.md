@@ -9,6 +9,8 @@ Express App:
 
 Press 'F1' to show the server log:
 
+**NOTE: Keybinds no longer work, need to figure out why**
+
 ![Server-Log](screenshots/server-log.png)
 
 ## Additional Information
@@ -19,12 +21,12 @@ routes from the routes folder to the root to make it a little easier to follow.
 
 ## How to run
 
-1.  Clone the code repository.
-2.  Open terminal to code repository.
-3.  Run `npm install`. (See Dependencies above)
-4.  Change directories to the express-app folder and run `npm install`.
-5.  Change directories back to the root of the code repository.
-6.  Run `npm start` to start the application.
+1. Clone the code repository.
+2. Open terminal to code repository.
+3. Run `npm install`. (See Dependencies above)
+4. Change directories to the express-app folder and run `npm install`.
+5. Change directories back to the root of the code repository.
+6. Run `npm start` to start the application.
 
 ## Package with Electron-Packager
 
@@ -67,14 +69,15 @@ node = require("child_process").fork(
 
 You can then package the code up using the command line:
 
-```
+```text
 electron-packager . --overwrite --platform=win32 --arch=x64 --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"Electron-With-Express\" --asar
 ```
 
 ## Author(s)
 
 Frank Hale &lt;frankhale@gmail.com&gt;
-28 January 2020
+
+Updated on: 15 January 2021
 
 ## License
 
