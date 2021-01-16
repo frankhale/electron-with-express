@@ -17,6 +17,10 @@ The `express-app` folder is just a vanilla Express generated app using
 `express-generator`. Actually, this used to be the case but I moved the default
 routes from the routes folder to the root to make it a little easier to follow.
 
+## Dependencies
+
+- Node [https://nodejs.org/]
+
 ## How to run
 
 1. Clone the code repository.
@@ -75,7 +79,7 @@ electron-packager . --overwrite --platform=win32 --arch=x64 --prune=true --out=r
 
 Frank Hale &lt;frankhale@gmail.com&gt;
 
-Updated on: 15 January 2021
+Updated on: 16 January 2021
 
 ## License
 
