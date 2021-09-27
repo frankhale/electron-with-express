@@ -1,22 +1,21 @@
 {
-  "name": "electron-with-express",
-  "description": "Demonstrates spawning Express from Electron and using it to serve content",
-  "version": "0.15.0",
-  "main": "main.js",
-  "authors": [
-    "Frank Hale <frankhale@gmail.com>"
-  ],
-  "license": "GPL-3.0",
-  "private": true,
-  "scripts": {
-    "start": ".\\node_modules\\node\\bin\\node.exe start-electron.js"
-  },
-  "dependencies": {
-    "electron": "11.2.0",
-    "jquery": "^3.5.1",
-    "lodash": "^4.17.21",
-    "node": "^15.4.0",
-    "request": "^2.88.2",
-    "strip": "^3.0.0"
-  }
+    "name": "electron-with-express",
+    "description": "Demonstrates spawning Express from Electron and using it to serve content",
+    "version": "0.15.0",
+    "main": "main.js",
+    "authors": [
+        "Frank Hale <frankhale@gmail.com>"
+    ],
+    "license": "GPL-3.0",
+    "private": true,
+    "scripts": {
+        "start": ".\\node_modules\\node\\bin\\node.exe start-electron.js"
+    },
+    "dependencies": {
+        "electron": "11.2.0",
+        "lodash": "^4.17.21",
+        "node": "^15.4.0",
+        "request": "^2.88.2",
+        "strip": "^3.0.0"
+    }
 }
