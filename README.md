@@ -7,7 +7,7 @@ Express App:
 
 ![Express-App](screenshots/express-app.png)
 
-Press `Alt+CommandOrControl+L` to show the server log:
+Press `CommandOrControl+L` to show the server log:
 
 ![Server-Log](screenshots/server-log.png)
 
@@ -38,10 +38,14 @@ make the following change:
 In index.html (line ~65):
 
 ```javascript
-app = require("electron").remote.app,
-node = spawn(".\\node_modules\\node\\bin\\node.exe", ["./express-app/bin/www"], {
-  cwd: app.getAppPath()
-});
+(app = require("electron").remote.app),
+  (node = spawn(
+    ".\\node_modules\\node\\bin\\node.exe",
+    ["./express-app/bin/www"],
+    {
+      cwd: app.getAppPath(),
+    }
+  ));
 ```
 
 This makes sure the path to our local copy of `node.exe` is correct when we run
@@ -60,13 +64,14 @@ process for the Express server instead of our copy of Node.
 In `index.html` around line 64 change the code to:
 
 ```javascript
-app = require("electron").remote.app,
-node = require("child_process").fork(
+(app = require("electron").remote.app),
+  (node = require("child_process").fork(
     `${app.getAppPath()}/express-app/bin/www`,
     [],
     {
-      stdio: ["pipe", "pipe", "pipe", "ipc"]
-    });
+      stdio: ["pipe", "pipe", "pipe", "ipc"],
+    }
+  ));
 ```
 
 You can then package the code up using the command line:
