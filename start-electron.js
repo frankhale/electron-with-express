@@ -1,4 +1,5 @@
-const electron = require("electron"),
-  proc = require("child_process");
+const electron = require("electron");
+
+const proc = require("child_process");
 
 proc.spawn(electron, ["."]);
