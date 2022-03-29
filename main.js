@@ -7,9 +7,11 @@ function createWindow() {
         autoHideMenuBar: true,
         width: 640,
         height: 480,
+        icon: "favicon.ico",
         webPreferences: {
             nodeIntegration: true,
-            enableRemoteModule: true
+            enableRemoteModule: true,
+            contextIsolation: false
         }
     });
     mainWindow.loadURL(`file://${__dirname}/server/index.html`);
@@ -22,7 +24,7 @@ function createWindow() {
     });
 }
 
-app.on("window-all-closed", function() {
+app.on("window-all-closed", function () {
     if (process.platform !== "darwin") {
         app.quit();
     }
