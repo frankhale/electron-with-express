@@ -9,7 +9,7 @@ const expressAppUrl = "http://127.0.0.1:3000";
 const nodePath = ".\\node_modules\\node\\bin\\node.exe";
 const expressPath = "./express-app/bin/www";
 
-// Elements ID 
+// Elements ID
 const serverLog = document.getElementById("serverLog");
 const expressApp = document.getElementById("expressApp");
 const loading = document.getElementById("loading");
@@ -17,7 +17,7 @@ const loading = document.getElementById("loading");
 
 // For electron-packager change cwd in spawn to app.getAppPath() and
 // uncomment the app require below
-//const app = require('electron').remote.app,
+//const app = require('@electron/remote').app;
 const node = spawn(nodePath, [expressPath], {
     cwd: process.cwd(),
 });
@@ -73,7 +73,7 @@ function strip(s) {
 
 function redirectOutput(x) {
     let lineBuffer = "";
-    x.on("data", function(data) {
+    x.on("data", function (data) {
         lineBuffer += data.toString();
         let lines = lineBuffer.split("\n");
         _.forEach(lines, (l) => {

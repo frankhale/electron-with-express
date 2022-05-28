@@ -1,4 +1,7 @@
 const { app, globalShortcut, BrowserWindow } = require('electron');
+const main = require('@electron/remote/main');
+
+main.initialize();
 
 let mainWindow;
 
@@ -14,6 +17,9 @@ function createWindow() {
             contextIsolation: false
         }
     });
+
+    main.enable(mainWindow.webContents);
+
     mainWindow.loadURL(`file://${__dirname}/server/index.html`);
     // mainWindow.webContents.openDevTools();
     mainWindow.on("close", () => {

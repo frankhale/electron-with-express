@@ -38,7 +38,7 @@ make the following change:
 In index.html (line ~65):
 
 ```javascript
-(app = require("electron").remote.app),
+(app = require('@electron/remote').app),
   (node = spawn(
     ".\\node_modules\\node\\bin\\node.exe",
     ["./express-app/bin/www"],
@@ -64,7 +64,7 @@ process for the Express server instead of our copy of Node.
 In `index.html` around line 64 change the code to:
 
 ```javascript
-(app = require("electron").remote.app),
+(app = require('@electron/remote').app),
   (node = require("child_process").fork(
     `${app.getAppPath()}/express-app/bin/www`,
     [],
@@ -84,7 +84,7 @@ electron-packager . --overwrite --platform=win32 --arch=x64 --prune=true --out=r
 
 Frank Hale &lt;frankhale@gmail.com&gt;
 
-Updated on: 16 January 2021
+Updated on: 28 May 2022
 
 ## License
 

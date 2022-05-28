@@ -12,6 +12,7 @@
         "start": ".\\node_modules\\node\\bin\\node.exe start-electron.js"
     },
     "dependencies": {
+        "@electron/remote": "^2.0.8",
         "electron": "^19.0.1",
         "lodash": "^4.17.21",
         "node": "^17.7.2",
