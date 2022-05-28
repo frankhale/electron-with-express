@@ -75,10 +75,14 @@ function redirectOutput(x) {
     let lineBuffer = "";
     x.on("data", function (data) {
         lineBuffer += data.toString();
+
         let lines = lineBuffer.split("\n");
         _.forEach(lines, (l) => {
             if (l !== "") {
-                serverLog.append(strip(l) + "<br/>");
+                let infoSpan = document.createElement("span");
+                infoSpan.textContent = strip(l);
+                serverLog.append(infoSpan);
+                serverLog.append(document.createElement("br"));
             }
         });
         lineBuffer = lines[lines.length - 1];

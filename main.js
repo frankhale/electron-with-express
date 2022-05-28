@@ -1,7 +1,6 @@
 const { app, globalShortcut, BrowserWindow } = require('electron');
 const main = require('@electron/remote/main');
-
-main.initialize();
+const { Console } = require('console');
 
 let mainWindow;
 
@@ -18,6 +17,7 @@ function createWindow() {
         }
     });
 
+    main.initialize();
     main.enable(mainWindow.webContents);
 
     mainWindow.loadURL(`file://${__dirname}/server/index.html`);
@@ -28,16 +28,23 @@ function createWindow() {
     mainWindow.on("closed", () => {
         mainWindow = null;
     });
+
+    mainWindow.on("focus", () => {
+        globalShortcut.register("CommandOrControl+l", () => {
+            console.log('CommandOrControl+l is pressed');
+            mainWindow.webContents.send("show-server-log");
+        });
+    });
+
+    mainWindow.on("blur", () => {
+        globalShortcut.unregisterAll();
+    });
 }
 
-app.on("window-all-closed", function () {
+app.on("window-all-closed", () => {
     if (process.platform !== "darwin") {
         app.quit();
     }
 });
 
-app.whenReady().then(() => {
-    globalShortcut.register("CommandOrControl+L", () => {
-        mainWindow.webContents.send("show-server-log");
-    })
-}).then(createWindow);
+app.whenReady().then(createWindow);
