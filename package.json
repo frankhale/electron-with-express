@@ -12,9 +12,9 @@
         "start": ".\\node_modules\\node\\bin\\node.exe start-electron.js"
     },
     "dependencies": {
-        "electron": "^17.1.2",
+        "electron": "^19.0.1",
         "lodash": "^4.17.21",
-        "node": "^15.4.0",
+        "node": "^17.7.2",
         "request": "^2.88.2",
         "strip": "^3.0.0"
     }
