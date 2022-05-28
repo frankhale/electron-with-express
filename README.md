@@ -7,7 +7,7 @@ Express App:
 
 ![Express-App](screenshots/express-app.png)
 
-Press `CommandOrControl+L` to show the server log:
+Press `CommandOrControl+Shift+L` to show the server log:
 
 ![Server-Log](screenshots/server-log.png)
 

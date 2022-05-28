@@ -44,10 +44,12 @@ ipcRenderer.on("stop-server", (event, data) => {
 });
 
 ipcRenderer.on("show-server-log", (event, data) => {
-    if (serverLog.style.display == "none") {
+    if (serverLog.style.display === "none") {
+        console.log("1");
         serverLog.style.display = "block";
         expressApp.classList.add("expressAppHide");
     } else {
+        console.log("2");
         expressApp.classList.remove("expressAppHide");
         serverLog.style.display = "none";
     }
@@ -91,15 +93,14 @@ function redirectOutput(x) {
 
 /* XXXXXXXXXX END OF FUNCTIONS XXXXXXXXXXX */
 
-
 redirectOutput(node.stdout);
-
 redirectOutput(node.stderr);
 
 let checkServerRunning = setInterval(() => {
     request(expressAppUrl, (error, response, body) => {
         if (!error && response.statusCode == 200) {
             expressApp.setAttribute("src", expressAppUrl);
+            serverLog.style.display = "none";
             loading.style.display = "none";
             expressApp.style.display = "block";
             clearInterval(checkServerRunning);

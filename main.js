@@ -4,6 +4,12 @@ const { Console } = require('console');
 
 let mainWindow;
 
+function registerGlobalShortcuts() {
+    globalShortcut.register("CommandOrControl+Shift+L", () => {
+        mainWindow.webContents.send("show-server-log");
+    });
+}
+
 function createWindow() {
     mainWindow = new BrowserWindow({
         autoHideMenuBar: true,
@@ -30,10 +36,7 @@ function createWindow() {
     });
 
     mainWindow.on("focus", () => {
-        globalShortcut.register("CommandOrControl+l", () => {
-            console.log('CommandOrControl+l is pressed');
-            mainWindow.webContents.send("show-server-log");
-        });
+        registerGlobalShortcuts();
     });
 
     mainWindow.on("blur", () => {
@@ -47,4 +50,13 @@ app.on("window-all-closed", () => {
     }
 });
 
-app.whenReady().then(createWindow);
+app.whenReady().then(() => {
+    registerGlobalShortcuts();
+    createWindow();
+
+    app.on("activate", () => {
+        if (BrowserWindow.getAllWindows().length === 0) {
+            createWindow()
+        }
+    });
+});
