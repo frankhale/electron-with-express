@@ -1,6 +1,5 @@
 const { app, globalShortcut, BrowserWindow } = require('electron');
 const main = require('@electron/remote/main');
-const { Console } = require('console');
 
 let mainWindow;
 
