@@ -6,16 +6,16 @@
     "authors": [
         "Frank Hale <frankhale@gmail.com>"
     ],
-    "license": "GPL-3.0",
+    "license": "MIT",
     "private": true,
     "scripts": {
         "start": ".\\node_modules\\node\\bin\\node.exe start-electron.js"
     },
     "dependencies": {
         "@electron/remote": "^2.0.8",
-        "electron": "^19.0.7",
+        "electron": "^20.1.3",
         "lodash": "^4.17.21",
-        "node": "^18.4.0",
+        "node": "^18.9.0",
         "request": "^2.88.2",
         "strip": "^3.0.0"
     }

@@ -1,6 +1,10 @@
 {
   "name": "express-app",
   "version": "0.0.7",
+  "authors": [
+    "Frank Hale <frankhale@gmail.com>"
+  ],
+  "license": "MIT",
   "private": true,
   "scripts": {
     "start": "node ./bin/www"
