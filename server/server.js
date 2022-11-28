@@ -14,14 +14,12 @@ const serverLog = document.getElementById("serverLog");
 const expressApp = document.getElementById("expressApp");
 const loading = document.getElementById("loading");
 
-
 // For electron-packager change cwd in spawn to app.getAppPath() and
 // uncomment the app require below
 //const app = require('@electron/remote').app;
 const node = spawn(nodePath, [expressPath], {
     cwd: process.cwd(),
 });
-
 
 /**
  * ==============================
