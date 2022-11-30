@@ -13,9 +13,9 @@
     },
     "dependencies": {
         "@electron/remote": "^2.0.8",
-        "electron": "^21.3.1",
+        "electron": "^22.0.0",
         "lodash": "^4.17.21",
-        "node": "^19.1.0",
+        "node": "^19.2.0",
         "request": "^2.88.2",
         "strip": "^3.0.0"
     }
