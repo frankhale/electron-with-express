@@ -84,7 +84,7 @@ electron-packager . --overwrite --platform=win32 --arch=x64 --prune=true --out=r
 
 Frank Hale &lt;frankhale@gmail.com&gt;
 
-Updated on: 30 November 2022
+Updated on: 16 December 2022
 
 ## License
 
