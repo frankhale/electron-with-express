@@ -1,22 +1,26 @@
 {
     "name": "electron-with-express",
     "description": "Demonstrates spawning Express from Electron and using it to serve content",
-    "version": "0.17.0",
-    "main": "main.js",
+    "version": "1.0.0",
+    "main": "./dist/main.js",
     "authors": [
         "Frank Hale <frankhale@gmail.com>"
     ],
     "license": "MIT",
     "private": true,
     "scripts": {
-        "start": ".\\node_modules\\node\\bin\\node.exe start-electron.js"
+        "build": "tsc",
+        "start": "tsc && electron ."
     },
     "dependencies": {
-        "@electron/remote": "^2.0.9",
-        "electron": "^22.0.0",
-        "lodash": "^4.17.21",
-        "node": "^19.3.0",
-        "request": "^2.88.2",
-        "strip": "^3.0.0"
+        "electron": "^22.2.0",
+        "node-fetch": "^2.6.9",
+        "strip": "^3.0.0",
+        "typescript": "^4.9.5"
+    },
+    "devDependencies": {
+        "@types/lodash": "^4.14.191",
+        "@types/node": "^18.11.19",
+        "@types/node-fetch": "^2.6.2"
     }
 }
