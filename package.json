@@ -1,7 +1,7 @@
 {
     "name": "electron-with-express",
     "description": "Demonstrates spawning Express from Electron and using it to serve content",
-    "version": "1.0.0",
+    "version": "1.0.2",
     "main": "./dist/main.js",
     "authors": [
         "Frank Hale <frankhale@gmail.com>"
@@ -15,7 +15,6 @@
     "dependencies": {
         "electron": "^22.2.0",
         "node-fetch": "^2.6.9",
-        "strip": "^3.0.0",
         "typescript": "^4.9.5"
     },
     "devDependencies": {
