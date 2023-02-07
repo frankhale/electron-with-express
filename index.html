@@ -1,87 +1,92 @@
 <!DOCTYPE html>
 <html lang="en-US">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Electron with Express</title>
+		<style>
+			body {
+				overflow: hidden;
+				margin: 0;
+				padding: 0;
+			}
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Electron with Express</title>
-    <style>
-        body {
-            overflow: hidden;
-            margin: 0;
-            padding: 0;
-        }
+			.loader {
+				border: 12px solid #f3f3f3;
+				border-radius: 50%;
+				border-top: 12px solid blue;
+				border-bottom: 12px solid blue;
+				width: 80px;
+				height: 80px;
+				-webkit-animation: spin 2s linear infinite;
+				animation: spin 2s linear infinite;
+			}
 
-        .loader {
-            border: 12px solid #f3f3f3;
-            border-radius: 50%;
-            border-top: 12px solid blue;
-            border-bottom: 12px solid blue;
-            width: 80px;
-            height: 80px;
-            -webkit-animation: spin 2s linear infinite;
-            animation: spin 2s linear infinite;
-        }
+			@-webkit-keyframes spin {
+				0% {
+					-webkit-transform: rotate(0deg);
+				}
 
-        @-webkit-keyframes spin {
-            0% {
-                -webkit-transform: rotate(0deg);
-            }
+				100% {
+					-webkit-transform: rotate(360deg);
+				}
+			}
 
-            100% {
-                -webkit-transform: rotate(360deg);
-            }
-        }
+			@keyframes spin {
+				0% {
+					transform: rotate(0deg);
+				}
 
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
+				100% {
+					transform: rotate(360deg);
+				}
+			}
 
-            100% {
-                transform: rotate(360deg);
-            }
-        }
+			#loading {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				height: 100vh;
+			}
 
-        #loading {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
+			#serverLog {
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				display: none;
+				overflow: auto;
+			}
 
-        #serverLog {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            display: none;
-            overflow: auto;
-        }
+			.expressApp {
+				display: flex !important;
+				position: absolute;
+				width: 100%;
+				height: 100%;
+			}
 
-        .expressApp {
-            display: flex !important;
-            position: absolute;
-            width: 100%;
-            height: 100%;
-        }
+			.expressAppHide {
+				flex: 0 1;
+				width: 0px;
+				height: 0px;
+			}
+		</style>
+	</head>
 
-        .expressAppHide {
-            flex: 0 1;
-            width: 0px;
-            height: 0px;
-        }
-    </style>
-</head>
+	<body>
+		<div id="loading">
+			<div class="loader"></div>
+		</div>
+		<div id="serverLog"></div>
+		<iframe
+			id="expressApp"
+			class="expressApp"
+			title="Express App"
+			frameborder="0"
+		></iframe>
 
-<body>
-    <div id="loading">
-        <div class="loader"></div>
-    </div>
-    <div id="serverLog"></div>
-    <iframe id="expressApp" class="expressApp" title="Express App" frameborder="0"></iframe>
-
-    <script>var exports = {};</script>
-    <script src="./dist/app.js"></script>
-</body>
-
+		<script>
+			var exports = {};
+		</script>
+		<script src="./dist/app.js"></script>
+	</body>
 </html>

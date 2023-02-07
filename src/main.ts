@@ -1,5 +1,6 @@
-import { app, globalShortcut, BrowserWindow } from "electron";
+import { app, globalShortcut, BrowserWindow, ipcMain } from "electron";
 import { spawn } from "child_process";
+import path from "path";
 import fetch from "node-fetch";
 
 let mainWindow: BrowserWindow | null;
@@ -27,17 +28,17 @@ function createWindow() {
 		height: 480,
 		icon: "favicon.ico",
 		webPreferences: {
-			nodeIntegration: true,
-			contextIsolation: false,
+			preload: path.join(__dirname, "preload.js"),
 		},
+	});
+
+	ipcMain.handle("get-express-app-url", () => {
+		return expressAppUrl;
 	});
 
 	//mainWindow.webContents.openDevTools();
 	mainWindow.loadURL(`file://${__dirname}/../index.html`);
 
-	mainWindow.on("close", () => {
-		mainWindow?.webContents.send("stop-server");
-	});
 	mainWindow.on("closed", () => {
 		mainWindow = null;
 		expressAppProcess.kill();
@@ -67,16 +68,16 @@ app.whenReady().then(() => {
 	});
 
 	let checkServerRunning = setInterval(() => {
-		try {
-			fetch(expressAppUrl).then((response: any) => {
+		fetch(expressAppUrl)
+			.then((response: any) => {
 				if (response.status === 200) {
 					clearInterval(checkServerRunning);
 					mainWindow!.webContents.send("server-running");
 				}
+			})
+			.catch((err) => {
+				// swallow exception
 			});
-		} catch (e) {
-			/* swallow exceptions about failing to connect */
-		}
 	}, 1000);
 });
 
@@ -93,7 +94,7 @@ function redirectOutput(x: any) {
 						/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g,
 						""
 					);
-					mainWindow?.webContents.send("server-log-entry", serverLogEntry);
+					mainWindow!.webContents.send("server-log-entry", serverLogEntry);
 				}
 			});
 	});
