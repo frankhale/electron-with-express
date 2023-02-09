@@ -1,7 +1,7 @@
 {
     "name": "electron-with-express",
     "description": "Demonstrates spawning Express from Electron and using it to serve content",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "main": "./dist/main.js",
     "authors": [
         "Frank Hale <frankhale@gmail.com>"
