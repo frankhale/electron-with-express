@@ -13,15 +13,14 @@ Press `CommandOrControl+Shift+L` to show the server log:
 
 ## How to run
 
-Make sure you `npm install` in both the root and the express app folder so that
-all dependencies are installed. Then use `npm run start` to start electron with
-content being served from the express app.
+- npm install
+- npm run start
 
 ## Author
 
 Frank Hale &lt;frankhale@gmail.com&gt;
 
-Updated on: 8 February 2023
+Updated on: 9 February 2023
 
 ## License
 
