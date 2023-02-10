@@ -38,14 +38,14 @@ routes.forEach((route) => {
 });
 
 app.set("port", port);
-app.set("views", path.join(__dirname, "views"));
+app.set("views", path.join(__dirname, path.join("..", "views")));
 app.set("view engine", "ejs");
 
 app.use(logger("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, path.join("..", "public"))));
 app.use("/", router);
 app.use(function (req, res, next) {
 	next(createError(404));

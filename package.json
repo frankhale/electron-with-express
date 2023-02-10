@@ -1,8 +1,9 @@
 {
     "name": "electron-with-express",
     "description": "Demonstrates spawning Express from Electron and using it to serve content",
-    "version": "1.0.5",
-    "main": "./dist/main.js",
+    "version": "1.0.6",
+    "main": "./dist/src/main.js",
+    "icon": "./dist/favicon.ico",
     "authors": [
         "Frank Hale <frankhale@gmail.com>"
     ],
@@ -10,20 +11,19 @@
     "private": true,
     "scripts": {
         "build": "tsc",
-        "start": "tsc && electron ."
+        "start": "tsc && electron .",
+        "pack": "tsc && cd .. && electron-packager ./electron-with-express --asar --icon=./electron-with-express/dist/favicon.ico --ignore=\"^(?!(.*node_modules|.*dist))(.*src.*|.*screenshots.*|.*tsconfig.*|.*README.*|.*git.*)\" --overwrite"
     },
     "dependencies": {
         "body-parser": "^1.20.1",
         "cookie-parser": "^1.4.6",
         "debug": "^4.3.4",
         "ejs": "^3.1.8",
-        "electron": "^23.0.0",
         "express": "^4.18.2",
         "http-errors": "^2.0.0",
         "morgan": "^1.10.0",
         "node-fetch": "^2.6.9",
-        "serve-favicon": "^2.5.0",
-        "typescript": "^4.9.5"
+        "serve-favicon": "^2.5.0"
     },
     "devDependencies": {
         "@types/cookie-parser": "^1.4.3",
@@ -31,6 +31,8 @@
         "@types/http-errors": "^2.0.1",
         "@types/morgan": "^1.9.4",
         "@types/node": "^18.13.0",
-        "@types/node-fetch": "^2.6.2"
+        "@types/node-fetch": "^2.6.2",
+        "electron": "^23.0.0",
+        "typescript": "^4.9.5"
     }
 }

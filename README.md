@@ -16,11 +16,17 @@ Press `CommandOrControl+Shift+L` to show the server log:
 - npm install
 - npm run start
 
+## How to package
+
+- npm run pack
+
+NOTE: This assumes `electron-packager` is installed globally
+
 ## Author
 
 Frank Hale &lt;frankhale@gmail.com&gt;
 
-Updated on: 9 February 2023
+Updated on: 10 February 2023
 
 ## License
 

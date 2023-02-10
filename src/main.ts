@@ -2,14 +2,18 @@ import { app, globalShortcut, BrowserWindow, ipcMain } from "electron";
 import { spawn } from "child_process";
 import path from "path";
 import fetch from "node-fetch";
+import { name } from "../package.json";
 
-let mainWindow: BrowserWindow | null;
-
+const appName = app.getPath("exe");
 const expressAppUrl = "http://127.0.0.1:3000";
-const expressPath = "./dist/express-app.js";
+let mainWindow: BrowserWindow | null;
+let expressPath = "./dist/src/express-app.js";
 
-const expressAppProcess = spawn(app.getPath("exe"), [expressPath], {
-	cwd: process.cwd(),
+if (appName.endsWith(`${name}.exe`)) {
+	expressPath = path.join("./resources/app.asar/", expressPath);
+}
+
+const expressAppProcess = spawn(appName, [expressPath], {
 	env: {
 		ELECTRON_RUN_AS_NODE: "1",
 	},
@@ -26,7 +30,7 @@ function createWindow() {
 		autoHideMenuBar: true,
 		width: 640,
 		height: 480,
-		icon: "favicon.ico",
+		icon: path.join(__dirname, "favicon.ico"),
 		webPreferences: {
 			preload: path.join(__dirname, "preload.js"),
 		},
@@ -34,6 +38,10 @@ function createWindow() {
 
 	ipcMain.handle("get-express-app-url", () => {
 		return expressAppUrl;
+	});
+
+	ipcMain.handle("get-express-app-process-pid", () => {
+		return expressAppProcess.pid;
 	});
 
 	//mainWindow.webContents.openDevTools();

@@ -5,6 +5,7 @@ const loading = document.getElementById("loading");
 (async () => {
 	// @ts-expect-error
 	const expressAppURL = await api.getExpressAppUrl();
+
 	// @ts-expect-error
 	ipcRenderer.on("server-running", (_event, _data) => {
 		expressApp!.setAttribute("src", expressAppURL);
