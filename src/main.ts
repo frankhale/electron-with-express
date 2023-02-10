@@ -30,7 +30,7 @@ function createWindow() {
 		autoHideMenuBar: true,
 		width: 640,
 		height: 480,
-		icon: path.join(__dirname, "favicon.ico"),
+		icon: path.join(__dirname, path.join("..", "favicon.ico")),
 		webPreferences: {
 			preload: path.join(__dirname, "preload.js"),
 		},
@@ -38,10 +38,6 @@ function createWindow() {
 
 	ipcMain.handle("get-express-app-url", () => {
 		return expressAppUrl;
-	});
-
-	ipcMain.handle("get-express-app-process-pid", () => {
-		return expressAppProcess.pid;
 	});
 
 	//mainWindow.webContents.openDevTools();
