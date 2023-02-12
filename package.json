@@ -1,9 +1,11 @@
 {
     "name": "electron-with-express",
     "description": "Demonstrates spawning Express from Electron and using it to serve content",
-    "version": "1.0.6",
+    "version": "1.0.7",
     "main": "./dist/src/main.js",
     "icon": "./dist/favicon.ico",
+    "expressPort": 3000,
+    "basePath": "./dist",
     "authors": [
         "Frank Hale <frankhale@gmail.com>"
     ],
@@ -12,7 +14,7 @@
     "scripts": {
         "build": "tsc",
         "start": "tsc && electron .",
-        "pack": "tsc && cd .. && electron-packager ./electron-with-express --asar --icon=./electron-with-express/dist/favicon.ico --ignore=\"^(?!(.*node_modules|.*dist))(.*src.*|.*screenshots.*|.*tsconfig.*|.*README.*|.*git.*)\" --overwrite"
+        "pack": "tsc && cd .. && electron-packager ./electron-with-express --icon=./electron-with-express/dist/favicon.ico --ignore=\"^(?!(.*node_modules|.*dist))(.*src.*|.*screenshots.*|.*tsconfig.*|.*README.*|.*git.*)\" --asar.unpack=*.{node,dll,db} --overwrite"
     },
     "dependencies": {
         "body-parser": "^1.20.1",
@@ -23,9 +25,11 @@
         "http-errors": "^2.0.0",
         "morgan": "^1.10.0",
         "node-fetch": "^2.6.9",
-        "serve-favicon": "^2.5.0"
+        "serve-favicon": "^2.5.0",
+        "sqlite3": "^5.1.4"
     },
     "devDependencies": {
+        "@types/better-sqlite3": "^7.6.3",
         "@types/cookie-parser": "^1.4.3",
         "@types/express": "^4.17.17",
         "@types/http-errors": "^2.0.1",

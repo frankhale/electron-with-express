@@ -26,7 +26,7 @@ NOTE: This assumes `electron-packager` is installed globally
 
 Frank Hale &lt;frankhale@gmail.com&gt;
 
-Updated on: 10 February 2023
+Updated on: 11 February 2023
 
 ## License
 

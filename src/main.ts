@@ -10,7 +10,7 @@ let mainWindow: BrowserWindow | null;
 let expressPath = "./dist/src/express-app.js";
 
 if (appName.endsWith(`${name}.exe`)) {
-	expressPath = path.join("./resources/app.asar/", expressPath);
+	expressPath = path.join("./resources/app.asar", expressPath);
 }
 
 const expressAppProcess = spawn(appName, [expressPath], {
@@ -36,13 +36,6 @@ function createWindow() {
 		},
 	});
 
-	ipcMain.handle("get-express-app-url", () => {
-		return expressAppUrl;
-	});
-
-	//mainWindow.webContents.openDevTools();
-	mainWindow.loadURL(`file://${__dirname}/../index.html`);
-
 	mainWindow.on("closed", () => {
 		mainWindow = null;
 		expressAppProcess.kill();
@@ -53,6 +46,13 @@ function createWindow() {
 	mainWindow.on("blur", () => {
 		globalShortcut.unregisterAll();
 	});
+
+	ipcMain.handle("get-express-app-url", () => {
+		return expressAppUrl;
+	});
+
+	//mainWindow.webContents.openDevTools();
+	mainWindow.loadURL(`file://${__dirname}/../index.html`);
 }
 
 app.on("window-all-closed", () => {

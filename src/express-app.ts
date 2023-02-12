@@ -5,11 +5,21 @@ import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
 import http from "http";
 import createError from "http-errors";
+import sqlite3 from "sqlite3";
+import { name, expressPort, basePath } from "../package.json";
+import process from "process";
+
+let dbPath = basePath;
 
 const app = express(),
-	router = express.Router();
+	router = express.Router(),
+	appName = process.execPath;
 
-var port = 3000;
+if (appName.endsWith(`${name}.exe`)) {
+	dbPath = path.join("./resources/app.asar.unpacked", basePath);
+}
+
+const db = new sqlite3.Database(path.join(dbPath, "data.db"));
 
 let routes = [
 	{
@@ -31,13 +41,28 @@ let routes = [
 		handler: (_req: any, res: any) =>
 			res.render("pageFour", { title: "Page 4" }),
 	},
+	{
+		path: "/data",
+		handler: (_req: any, res: any) => {
+			db.all("select * from People", [], (err, rows) => {
+				if (err) {
+					res.status(400).json({ "error": err.message });
+					return;
+				}
+				res.json({
+					"message": "success",
+					"data": rows
+				});
+			});
+		},
+	}
 ];
 
 routes.forEach((route) => {
 	router.get(route.path, route.handler);
 });
 
-app.set("port", port);
+app.set("port", expressPort);
 app.set("views", path.join(__dirname, path.join("..", "views")));
 app.set("view engine", "ejs");
 
@@ -59,26 +84,33 @@ app.use((err: any, req: any, res: any, _next: any) => {
 	res.render("error");
 });
 
-var server = http.createServer(app);
-server.listen(port);
+function shutdown() {
+	console.log("Shutting down Express server...");
+	db.close();
+	server.close();
+}
+
+process.on("SIGTERM", shutdown);
+process.on("SIGINT", shutdown);
+
+let server = http.createServer(app);
+server.listen(expressPort);
 server.on("error", (error: any) => {
 	if (error.syscall !== "listen") {
 		throw error;
 	}
 
-	var bind = typeof port === "string" ? "Pipe " + port : "Port " + port;
+	var bind = typeof expressPort === "string" ? "Pipe " + expressPort : "Port " + expressPort;
 
 	switch (error.code) {
 		case "EACCES":
 			console.error(bind + " requires elevated privileges");
 			process.exit(1);
-			break;
 		case "EADDRINUSE":
 			console.error(bind + " is already in use");
 			process.exit(1);
-			break;
 		default:
 			throw error;
 	}
 });
-server.on("listening", () => console.log(`Listening on: ${port}`));
+server.on("listening", () => console.log(`Listening on: ${expressPort}`));
