@@ -21,7 +21,7 @@ if (appName.endsWith(`${name}.exe`)) {
 
 const db = new sqlite3.Database(path.join(dbPath, "data.db"));
 
-let routes = [
+const routes = [
 	{
 		path: "/",
 		handler: (_req: any, res: any) => res.render("index", { title: "Home" }),
@@ -46,16 +46,16 @@ let routes = [
 		handler: (_req: any, res: any) => {
 			db.all("select * from People", [], (err, rows) => {
 				if (err) {
-					res.status(400).json({ "error": err.message });
+					res.status(400).json({ error: err.message });
 					return;
 				}
 				res.json({
-					"message": "success",
-					"data": rows
+					message: "success",
+					data: rows,
 				});
 			});
 		},
-	}
+	},
 ];
 
 routes.forEach((route) => {
@@ -100,7 +100,10 @@ server.on("error", (error: any) => {
 		throw error;
 	}
 
-	var bind = typeof expressPort === "string" ? "Pipe " + expressPort : "Port " + expressPort;
+	var bind =
+		typeof expressPort === "string"
+			? "Pipe " + expressPort
+			: "Port " + expressPort;
 
 	switch (error.code) {
 		case "EACCES":

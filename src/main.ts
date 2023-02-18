@@ -1,4 +1,5 @@
 import { app, globalShortcut, BrowserWindow, ipcMain } from "electron";
+import { Readable } from "stream";
 import { spawn } from "child_process";
 import path from "path";
 import fetch from "node-fetch";
@@ -13,11 +14,24 @@ if (appName.endsWith(`${name}.exe`)) {
 	expressPath = path.join("./resources/app.asar", expressPath);
 }
 
-const expressAppProcess = spawn(appName, [expressPath], {
-	env: {
-		ELECTRON_RUN_AS_NODE: "1",
-	},
-});
+function redirectOutput(x: Readable) {
+	x.on("data", function (data: any) {
+		data
+			.toString()
+			.split("\n")
+			.forEach((line: string) => {
+				if (line !== "") {
+					// regex from: http://stackoverflow.com/a/29497680/170217
+					// REGEX to Remove all ANSI colors/styles from strings
+					let serverLogEntry = line.replace(
+						/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g,
+						""
+					);
+					mainWindow!.webContents.send("server-log-entry", serverLogEntry);
+				}
+			});
+	});
+}
 
 function registerGlobalShortcuts() {
 	globalShortcut.register("CommandOrControl+Shift+L", () => {
@@ -26,6 +40,14 @@ function registerGlobalShortcuts() {
 }
 
 function createWindow() {
+	const expressAppProcess = spawn(appName, [expressPath], {
+		env: {
+			ELECTRON_RUN_AS_NODE: "1",
+		},
+	});
+	redirectOutput(expressAppProcess.stdout);
+	redirectOutput(expressAppProcess.stderr);
+
 	mainWindow = new BrowserWindow({
 		autoHideMenuBar: true,
 		width: 640,
@@ -84,25 +106,3 @@ app.whenReady().then(() => {
 			});
 	}, 1000);
 });
-
-function redirectOutput(x: any) {
-	x.on("data", function (data: any) {
-		data
-			.toString()
-			.split("\n")
-			.forEach((l: string) => {
-				if (l !== "") {
-					// regex from: http://stackoverflow.com/a/29497680/170217
-					// REGEX to Remove all ANSI colors/styles from strings
-					let serverLogEntry = l.replace(
-						/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g,
-						""
-					);
-					mainWindow!.webContents.send("server-log-entry", serverLogEntry);
-				}
-			});
-	});
-}
-
-redirectOutput(expressAppProcess.stdout);
-redirectOutput(expressAppProcess.stderr);
