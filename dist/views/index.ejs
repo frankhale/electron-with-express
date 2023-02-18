@@ -1,9 +1,13 @@
 <!DOCTYPE html>
 <%- include('include/head'); %>
-<html lang="en">
+	<html lang="en">
+
 	<body>
-		<h1><%= title %></h1>
-		<p>Welcome to <%= title %></p>
+		<h1>
+			<%= title %>
+		</h1>
+		<p>Welcome to <%= title %>
+		</p>
 		<br />
 		<p>Other Pages:</p>
 		<a href="/pageTwo">Page Two</a>
@@ -11,19 +15,6 @@
 		<a href="/pageThree">Page Three</a>
 		<br />
 		<a href="/pageFour">Page Four</a>
-
-		<script type="text/javascript">
-			// fetch /data from server
-			fetch("/data")
-				.then(function (response) {
-					return response.json();
-				})
-				.then(function (data) {
-					console.log(data);
-				})
-				.catch(function (err) {
-					console.log(err);
-				});
-		</script>
 	</body>
-</html>
+
+	</html>

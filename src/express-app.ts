@@ -5,7 +5,6 @@ import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
 import http from "http";
 import createError from "http-errors";
-import sqlite3 from "sqlite3";
 import { name, expressPort, basePath } from "../package.json";
 import process from "process";
 
@@ -18,8 +17,6 @@ const app = express(),
 if (appName.endsWith(`${name}.exe`)) {
 	dbPath = path.join("./resources/app.asar.unpacked", basePath);
 }
-
-const db = new sqlite3.Database(path.join(dbPath, "data.db"));
 
 const routes = [
 	{
@@ -40,22 +37,7 @@ const routes = [
 		path: "/pageFour",
 		handler: (_req: any, res: any) =>
 			res.render("pageFour", { title: "Page 4" }),
-	},
-	{
-		path: "/data",
-		handler: (_req: any, res: any) => {
-			db.all("select * from People", [], (err, rows) => {
-				if (err) {
-					res.status(400).json({ error: err.message });
-					return;
-				}
-				res.json({
-					message: "success",
-					data: rows,
-				});
-			});
-		},
-	},
+	}
 ];
 
 routes.forEach((route) => {
@@ -86,7 +68,6 @@ app.use((err: any, req: any, res: any, _next: any) => {
 
 function shutdown() {
 	console.log("Shutting down Express server...");
-	db.close();
 	server.close();
 }
 
