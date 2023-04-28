@@ -7,6 +7,7 @@ import http from "http";
 import createError from "http-errors";
 import { name, expressPort, basePath } from "../package.json";
 import process from "process";
+import Database from "better-sqlite3";
 
 let dbPath = basePath;
 
@@ -17,6 +18,8 @@ const app = express(),
 if (appName.endsWith(`${name}.exe`)) {
 	dbPath = path.join("./resources/app.asar.unpacked", basePath);
 }
+
+const db = new Database(path.join(dbPath, "data.db"));
 
 const routes = [
 	{
@@ -37,7 +40,18 @@ const routes = [
 		path: "/pageFour",
 		handler: (_req: any, res: any) =>
 			res.render("pageFour", { title: "Page 4" }),
-	}
+	},
+	{
+		path: "/data",
+		handler: (_req: any, res: any) => {
+			const stmt = db.prepare("select * from People");
+			const rows = stmt.all();
+
+			res.json({
+				data: rows,
+			});
+		},
+	},
 ];
 
 routes.forEach((route) => {
@@ -68,6 +82,7 @@ app.use((err: any, req: any, res: any, _next: any) => {
 
 function shutdown() {
 	console.log("Shutting down Express server...");
+	db.close();
 	server.close();
 }
 
