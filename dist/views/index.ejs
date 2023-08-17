@@ -15,22 +15,6 @@
 		<a href="/pageThree">Page Three</a>
 		<br />
 		<a href="/pageFour">Page Four</a>
-		<script type="text/javascript">
-
-			window.addEventListener('load', function () {
-				// fetch /data from server
-				fetch("/data")
-					.then(function (response) {
-						return response.json();
-					})
-					.then(function (data) {
-						console.log(data);
-					})
-					.catch(function (err) {
-						console.log(err);
-					});
-			});
-		</script>
 	</body>
 
 	</html>
