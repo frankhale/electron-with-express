@@ -21,7 +21,8 @@ function stripAnsiColors(text: string): string {
 }
 
 function redirectOutput(stream: Readable) {
-  stream.on("data", (data) => {
+  stream.on("data", (data: any) => {
+    if (!mainWindow) return;
     data.toString().split("\n").forEach((line: string) => {
       if (line !== "") {
         mainWindow!.webContents.send("server-log-entry", stripAnsiColors(line));
