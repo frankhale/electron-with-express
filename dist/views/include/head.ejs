@@ -2,4 +2,18 @@
 	<meta charset="utf-8" />
 	<title><%= title %></title>
 	<link rel="stylesheet" href="stylesheets/style.css" />
+	<script type="module">
+		import { io } from "http://cdn.socket.io/4.8.0/socket.io.esm.min.js";
+
+		const socket = io('http://localhost:3001');
+
+		socket.on('connect', () => {
+			console.log('Connected to server');
+			socket.emit('hello');
+		});
+
+		socket.on('hello', (message) => {
+			console.log(message);
+		});
+	</script>
 </head>

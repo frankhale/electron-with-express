@@ -6,6 +6,7 @@ import bodyParser from "body-parser";
 import http from "http";
 import createError from "http-errors";
 import { expressPort } from "../package.json";
+import cors from "cors";
 
 const app = express();
 const router = express.Router();
@@ -25,6 +26,12 @@ app.set("port", expressPort);
 app.set("views", path.join(__dirname, "..", "views"));
 app.set("view engine", "ejs");
 
+const corsOptions = {
+  origin: 'http://127.0.0.1:3000',
+  methods: ['GET', 'POST']
+};
+
+app.use(cors(corsOptions));
 app.use(logger("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
