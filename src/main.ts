@@ -4,11 +4,32 @@ import { spawn } from "child_process";
 import path from "path";
 import fetch from "node-fetch";
 import { name } from "../package.json";
+import {Socket} from "socket.io";
 //import fs from "fs";
 
 const appName = app.getPath("exe");
 const expressAppUrl = "http://127.0.0.1:3000";
 let mainWindow: BrowserWindow | null;
+
+const server = require('http').createServer();
+const io = require('socket.io')(server, {
+  cors: {origin: "*"},
+  methods: ['GET', 'POST']
+});
+
+io.on('connection', (socket: Socket) => {
+  console.log('client connected');
+  socket.send('hello', 'you connected');
+
+  socket.on('hello', () => {
+    console.log('Received hello message');
+    socket.emit('hello', 'hello,world!');
+  });
+});
+
+server.listen(3001, () => {
+  console.log('socket.io server listening on port 3001');
+});
 
 // const logPath = path.join(app.getPath("home"), ".express-app-log");
 // const logStream = fs.createWriteStream(logPath, { flags: "a" });
