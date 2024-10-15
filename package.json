@@ -1,7 +1,7 @@
 {
   "name": "electron-with-express",
   "description": "Demonstrates spawning Express from Electron and using it to serve content",
-  "version": "1.0.19",
+  "version": "1.0.20",
   "main": "./dist/src/main.js",
   "icon": "./dist/favicon.ico",
   "expressPort": 3000,
@@ -38,7 +38,7 @@
     "@types/morgan": "^1.9.9",
     "@types/node": "^22.7.5",
     "@types/node-fetch": "^2.6.11",
-    "electron": "^32.2.0",
+    "electron": "^33.0.0",
     "typescript": "^5.6.3"
   }
 }
