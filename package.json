@@ -1,7 +1,7 @@
 {
   "name": "electron-with-express",
   "description": "Demonstrates spawning Express from Electron and using it to serve content",
-  "version": "1.0.22",
+  "version": "1.0.23",
   "main": "./dist/src/main.js",
   "icon": "./dist/favicon.ico",
   "expressPort": 3000,
@@ -17,7 +17,7 @@
     "pack": "tsc && cd .. && electron-packager ./electron-with-express --icon=./electron-with-express/dist/favicon.ico --ignore=\"^(?!.(node_modules|dist)).(src|screenshots|tsconfig|README|.git)\" --asar.unpack=\".*\\.(node|dll|db)$\" --overwrite"
   },
   "dependencies": {
-    "body-parser": "^1.20.2",
+    "body-parser": "^2.2.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "debug": "^4.3.7",
@@ -37,9 +37,9 @@
     "@types/express": "^5.0.0",
     "@types/http-errors": "^2.0.4",
     "@types/morgan": "^1.9.9",
-    "@types/node": "^22.10.1",
+    "@types/node": "^24.10.1",
     "@types/node-fetch": "^2.6.12",
-    "electron": "^34.3.0",
+    "electron": "^39.1.2",
     "typescript": "^5.7.2"
   }
 }
