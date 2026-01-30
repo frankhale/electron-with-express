@@ -23,7 +23,6 @@ routes.forEach(({ path, viewName, title }) => {
   router.get(path, (_req, res) => res.render(viewName, { title }));
 });
 
-// Health check endpoint for monitoring
 router.get("/health", (_req, res) => {
   res.json({ status: "ok", timestamp: new Date().toISOString() });
 });
@@ -48,7 +47,6 @@ app.use(
         frameAncestors: ["'self'", "file:"],
       },
     },
-    // Allow embedding in Electron's iframe (file:// protocol)
     crossOriginEmbedderPolicy: false,
     crossOriginResourcePolicy: { policy: "cross-origin" },
   })

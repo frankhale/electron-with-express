@@ -23,10 +23,6 @@ interface WindowState {
 
 const windowStatePath = path.join(app.getPath("userData"), "window-state.json");
 
-/**
- * Loads the saved window state from disk.
- * Returns default dimensions if no saved state exists.
- */
 function getWindowState(): WindowState {
   try {
     if (fs.existsSync(windowStatePath)) {
@@ -42,9 +38,6 @@ function getWindowState(): WindowState {
   };
 }
 
-/**
- * Saves the current window state to disk.
- */
 function saveWindowState(): void {
   if (!mainWindow) return;
   try {
@@ -214,7 +207,6 @@ function createWindow(): void {
   mainWindow.on("blur", unregisterAllShortcuts);
 
   mainWindow.webContents.on("did-finish-load", () => {
-    // Only send on reload if server was already confirmed running
     if (serverRunningNotified) {
       mainWindow?.webContents.send("server-running");
     }
