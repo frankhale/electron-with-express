@@ -2,8 +2,9 @@ import { app, globalShortcut, BrowserWindow, ipcMain, dialog } from "electron";
 import { Readable } from "stream";
 import { spawn, ChildProcess } from "child_process";
 import path from "path";
+import fs from "fs";
 import { createServer } from "node:http";
-import { Server as SocketIOServer, Socket } from "socket.io";
+import { Server as SocketIOServer } from "socket.io";
 import { name } from "../package.json";
 import {
   expressUrl,
@@ -13,15 +14,57 @@ import {
   shutdownTimeout,
 } from "./config";
 
+interface WindowState {
+  width: number;
+  height: number;
+  x?: number;
+  y?: number;
+}
+
+const windowStatePath = path.join(app.getPath("userData"), "window-state.json");
+
+/**
+ * Loads the saved window state from disk.
+ * Returns default dimensions if no saved state exists.
+ */
+function getWindowState(): WindowState {
+  try {
+    if (fs.existsSync(windowStatePath)) {
+      const data = fs.readFileSync(windowStatePath, "utf-8");
+      return JSON.parse(data);
+    }
+  } catch (err) {
+    console.error("Failed to load window state:", err);
+  }
+  return {
+    width: windowConfig.width,
+    height: windowConfig.height,
+  };
+}
+
+/**
+ * Saves the current window state to disk.
+ */
+function saveWindowState(): void {
+  if (!mainWindow) return;
+  try {
+    const bounds = mainWindow.getBounds();
+    fs.writeFileSync(windowStatePath, JSON.stringify(bounds, null, 2));
+  } catch (err) {
+    console.error("Failed to save window state:", err);
+  }
+}
+
 const appName = app.getPath("exe");
 let mainWindow: BrowserWindow | null;
+let serverRunningNotified = false;
 
 const server = createServer();
 const io = new SocketIOServer(server, {
   cors: { origin: "*" },
 });
 
-io.on("connection", (socket: Socket) => {
+io.on("connection", (socket) => {
   console.log("client connected");
   socket.send("hello", "you connected");
 
@@ -146,15 +189,21 @@ function createWindow(): void {
     if (stream) redirectOutput(stream);
   });
 
+  const windowState = getWindowState();
+
   mainWindow = new BrowserWindow({
     autoHideMenuBar: true,
-    width: windowConfig.width,
-    height: windowConfig.height,
+    width: windowState.width,
+    height: windowState.height,
+    x: windowState.x,
+    y: windowState.y,
     icon: path.join(__dirname, "..", "favicon.ico"),
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
     },
   });
+
+  mainWindow.on("close", saveWindowState);
 
   mainWindow.on("closed", () => {
     gracefulShutdown(expressAppProcess);
@@ -165,13 +214,10 @@ function createWindow(): void {
   mainWindow.on("blur", unregisterAllShortcuts);
 
   mainWindow.webContents.on("did-finish-load", () => {
-    fetch(expressUrl)
-      .then((response) => {
-        if (response.status === 200) {
-          mainWindow?.webContents.send("server-running");
-        }
-      })
-      .catch(() => { });
+    // Only send on reload if server was already confirmed running
+    if (serverRunningNotified) {
+      mainWindow?.webContents.send("server-running");
+    }
   });
 
   ipcMain.handle("get-express-app-url", () => expressUrl);
@@ -193,6 +239,7 @@ app.whenReady().then(async () => {
 
   const serverReady = await waitForServer(expressUrl);
   if (serverReady) {
+    serverRunningNotified = true;
     mainWindow?.webContents.send("server-running");
   } else {
     dialog.showErrorBox(

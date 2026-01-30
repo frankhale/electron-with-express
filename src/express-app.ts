@@ -4,7 +4,7 @@ import logger from "morgan";
 import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
 import http from "http";
-import createError from "http-errors";
+import createError, { HttpError } from "http-errors";
 import helmet from "helmet";
 import cors from "cors";
 import { expressPort, corsOrigin, socketPort } from "./config";
@@ -23,6 +23,11 @@ routes.forEach(({ path, viewName, title }) => {
   router.get(path, (_req, res) => res.render(viewName, { title }));
 });
 
+// Health check endpoint for monitoring
+router.get("/health", (_req, res) => {
+  res.json({ status: "ok", timestamp: new Date().toISOString() });
+});
+
 app.set("port", expressPort);
 app.set("views", path.join(__dirname, "..", "views"));
 app.set("view engine", "ejs");
@@ -37,11 +42,15 @@ app.use(
     contentSecurityPolicy: {
       directives: {
         defaultSrc: ["'self'"],
-        scriptSrc: ["'self'", "'unsafe-inline'"],
+        scriptSrc: ["'self'", "'unsafe-inline'", `http://localhost:${socketPort}`, "https://cdn.socket.io"],
         styleSrc: ["'self'", "'unsafe-inline'"],
-        connectSrc: ["'self'", `ws://localhost:${socketPort}`],
+        connectSrc: ["'self'", `ws://localhost:${socketPort}`, `http://localhost:${socketPort}`, "https://cdn.socket.io"],
+        frameAncestors: ["'self'", "file:"],
       },
     },
+    // Allow embedding in Electron's iframe (file:// protocol)
+    crossOriginEmbedderPolicy: false,
+    crossOriginResourcePolicy: { policy: "cross-origin" },
   })
 );
 app.use(cors(corsOptions));
@@ -52,17 +61,24 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "..", "public")));
 app.use("/", router);
 app.use((_req, _res, next) => next(createError(404)));
-app.use((err: any, req: any, res: any, _next: any) => {
-  res.locals.title = "error";
-  res.locals.message = err.message;
-  res.locals.error = req.app.get("env") === "development" ? err : {};
+app.use(
+  (
+    err: HttpError,
+    req: express.Request,
+    res: express.Response,
+    _next: express.NextFunction
+  ) => {
+    res.locals.title = "error";
+    res.locals.message = err.message;
+    res.locals.error = req.app.get("env") === "development" ? err : {};
 
-  res.status(err.status || 500).render("error");
-});
+    res.status(err.status || 500).render("error");
+  }
+);
 
 const server = http.createServer(app);
 
-function handleServerError(error: any) {
+function handleServerError(error: NodeJS.ErrnoException) {
   if (error.syscall !== "listen") throw error;
 
   const bind =
