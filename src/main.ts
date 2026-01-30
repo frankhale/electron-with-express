@@ -1,47 +1,44 @@
-import { app, globalShortcut, BrowserWindow, ipcMain } from "electron";
+import { app, globalShortcut, BrowserWindow, ipcMain, dialog } from "electron";
 import { Readable } from "stream";
-import { spawn } from "child_process";
+import { spawn, ChildProcess } from "child_process";
 import path from "path";
+import { createServer } from "node:http";
+import { Server as SocketIOServer, Socket } from "socket.io";
 import { name } from "../package.json";
-import { Socket } from "socket.io";
-//import fs from "fs";
+import {
+  expressUrl,
+  socketPort,
+  window as windowConfig,
+  healthCheck,
+  shutdownTimeout,
+} from "./config";
 
 const appName = app.getPath("exe");
-const expressAppUrl = "http://127.0.0.1:3000";
 let mainWindow: BrowserWindow | null;
 
-const server = require('http').createServer();
-const io = require('socket.io')(server, {
+const server = createServer();
+const io = new SocketIOServer(server, {
   cors: { origin: "*" },
-  methods: ['GET', 'POST']
 });
 
-io.on('connection', (socket: Socket) => {
-  console.log('client connected');
-  socket.send('hello', 'you connected');
+io.on("connection", (socket: Socket) => {
+  console.log("client connected");
+  socket.send("hello", "you connected");
 
-  socket.on('hello', () => {
-    console.log('Received hello message');
-    socket.emit('hello', 'hello,world!');
+  socket.on("hello", () => {
+    console.log("Received hello message");
+    socket.emit("hello", "hello,world!");
   });
 });
 
-server.listen(3001, () => {
-  console.log('socket.io server listening on port 3001');
+server.listen(socketPort, () => {
+  console.log(`socket.io server listening on port ${socketPort}`);
 });
-
-// const logPath = path.join(app.getPath("home"), ".express-app-log");
-// const logStream = fs.createWriteStream(logPath, { flags: "a" });
 
 const expressPath =
   appName.endsWith(`${name}.exe`) || appName.endsWith(name)
     ? path.join(app.getAppPath(), "dist/src/express-app.js")
     : "./dist/src/express-app.js";
-
-// logStream.write(`App name: ${appName}\n`);
-// logStream.write(`App path: ${app.getAppPath()}\n`);
-// logStream.write(`Starting express app with path: ${expressPath}\n`);
-// logStream.close();
 
 function stripAnsiColors(text: string): string {
   return text.replace(
@@ -50,8 +47,8 @@ function stripAnsiColors(text: string): string {
   );
 }
 
-function redirectOutput(stream: Readable) {
-  stream.on("data", (data: any) => {
+function redirectOutput(stream: Readable): void {
+  stream.on("data", (data: Buffer) => {
     if (!mainWindow) return;
     data
       .toString()
@@ -67,7 +64,7 @@ function redirectOutput(stream: Readable) {
   });
 }
 
-function registerGlobalShortcuts() {
+function registerGlobalShortcuts(): void {
   globalShortcut.register("CommandOrControl+Shift+L", () => {
     mainWindow!.webContents.send("show-server-log");
   });
@@ -76,21 +73,83 @@ function registerGlobalShortcuts() {
   });
 }
 
-function unregisterAllShortcuts() {
+function unregisterAllShortcuts(): void {
   globalShortcut.unregisterAll();
 }
 
-function createWindow() {
+async function waitForServer(
+  url: string,
+  maxRetries = healthCheck.maxRetries,
+  initialDelay = healthCheck.initialDelay
+): Promise<boolean> {
+  let delay = initialDelay;
+
+  for (let i = 0; i < maxRetries; i++) {
+    try {
+      const response = await fetch(url);
+      if (response.status === 200) {
+        return true;
+      }
+    } catch {
+      // Server not ready yet
+    }
+
+    await new Promise((resolve) => setTimeout(resolve, delay));
+    delay = Math.min(delay * 1.5, healthCheck.maxDelay);
+  }
+
+  return false;
+}
+
+function gracefulShutdown(
+  process: ChildProcess,
+  timeout = shutdownTimeout
+): void {
+  if (!process || process.killed) return;
+
+  process.kill("SIGTERM");
+
+  const timer = setTimeout(() => {
+    if (process && !process.killed) {
+      console.log("Force killing Express server after timeout");
+      process.kill("SIGKILL");
+    }
+  }, timeout);
+
+  process.once("exit", () => {
+    clearTimeout(timer);
+  });
+}
+
+function createWindow(): void {
   const expressAppProcess = spawn(appName, [expressPath], {
     env: { ELECTRON_RUN_AS_NODE: "1" },
   });
 
-  [expressAppProcess.stdout, expressAppProcess.stderr].forEach(redirectOutput);
+  expressAppProcess.on("error", (err) => {
+    console.error("Failed to start Express server:", err);
+    dialog.showErrorBox(
+      "Server Error",
+      `Failed to start Express server: ${err.message}`
+    );
+  });
+
+  expressAppProcess.on("exit", (code, signal) => {
+    if (code !== 0 && code !== null) {
+      console.error(
+        `Express server exited with code ${code}, signal ${signal}`
+      );
+    }
+  });
+
+  [expressAppProcess.stdout, expressAppProcess.stderr].forEach((stream) => {
+    if (stream) redirectOutput(stream);
+  });
 
   mainWindow = new BrowserWindow({
     autoHideMenuBar: true,
-    width: 640,
-    height: 480,
+    width: windowConfig.width,
+    height: windowConfig.height,
     icon: path.join(__dirname, "..", "favicon.ico"),
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
@@ -98,24 +157,33 @@ function createWindow() {
   });
 
   mainWindow.on("closed", () => {
+    gracefulShutdown(expressAppProcess);
     mainWindow = null;
-    expressAppProcess.kill();
   });
 
   mainWindow.on("focus", registerGlobalShortcuts);
   mainWindow.on("blur", unregisterAllShortcuts);
 
-  ipcMain.handle("get-express-app-url", () => expressAppUrl);
+  mainWindow.webContents.on("did-finish-load", () => {
+    fetch(expressUrl)
+      .then((response) => {
+        if (response.status === 200) {
+          mainWindow?.webContents.send("server-running");
+        }
+      })
+      .catch(() => { });
+  });
+
+  ipcMain.handle("get-express-app-url", () => expressUrl);
 
   mainWindow.loadURL(`file://${__dirname}/../index.html`);
 }
 
 app.on("window-all-closed", () => {
-  //if (process.platform !== "darwin") app.quit();
   app.quit();
 });
 
-app.whenReady().then(() => {
+app.whenReady().then(async () => {
   registerGlobalShortcuts();
   createWindow();
 
@@ -123,14 +191,13 @@ app.whenReady().then(() => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
 
-  const checkServerRunning = setInterval(() => {
-    fetch(expressAppUrl)
-      .then((response: Response) => {
-        if (response.status === 200) {
-          clearInterval(checkServerRunning);
-          mainWindow!.webContents.send("server-running");
-        }
-      })
-      .catch(() => { }); // swallow exception
-  }, 1000);
+  const serverReady = await waitForServer(expressUrl);
+  if (serverReady) {
+    mainWindow?.webContents.send("server-running");
+  } else {
+    dialog.showErrorBox(
+      "Server Error",
+      "Express server failed to start within the expected time."
+    );
+  }
 });

@@ -1,11 +1,23 @@
-import { contextBridge, ipcRenderer } from "electron";
+import { contextBridge, ipcRenderer, IpcRendererEvent } from "electron";
 
-contextBridge.exposeInMainWorld("api", {
-	getExpressAppUrl: () => ipcRenderer.invoke("get-express-app-url")
-});
+interface API {
+  getExpressAppUrl: () => Promise<string>;
+}
 
-contextBridge.exposeInMainWorld("ipcRenderer", {
-	on: (channel: string, listener: (event: any, ...args: any[]) => void) => {
-		ipcRenderer.on(channel, listener);
-	}
-});
+interface IpcRendererBridge {
+  on: (
+    channel: string,
+    listener: (event: IpcRendererEvent, ...args: unknown[]) => void
+  ) => void;
+}
+
+const api: API = {
+  getExpressAppUrl: () => ipcRenderer.invoke("get-express-app-url"),
+};
+
+const ipcRendererBridge: IpcRendererBridge = {
+  on: (channel, listener) => ipcRenderer.on(channel, listener),
+};
+
+contextBridge.exposeInMainWorld("api", api);
+contextBridge.exposeInMainWorld("ipcRenderer", ipcRendererBridge);

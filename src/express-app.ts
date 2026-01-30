@@ -5,8 +5,9 @@ import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
 import http from "http";
 import createError from "http-errors";
-import { expressPort } from "../package.json";
+import helmet from "helmet";
 import cors from "cors";
+import { expressPort, corsOrigin, socketPort } from "./config";
 
 const app = express();
 const router = express.Router();
@@ -15,7 +16,7 @@ const routes = [
   { path: "/", viewName: "index", title: "Home" },
   { path: "/pageTwo", viewName: "pageTwo", title: "Page 2" },
   { path: "/pageThree", viewName: "pageThree", title: "Page 3" },
-  { path: "/pageFour", viewName: "pageFour", title: "Page 4" }
+  { path: "/pageFour", viewName: "pageFour", title: "Page 4" },
 ];
 
 routes.forEach(({ path, viewName, title }) => {
@@ -27,10 +28,22 @@ app.set("views", path.join(__dirname, "..", "views"));
 app.set("view engine", "ejs");
 
 const corsOptions = {
-  origin: 'http://127.0.0.1:3000',
-  methods: ['GET', 'POST']
+  origin: corsOrigin,
+  methods: ["GET", "POST"],
 };
 
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'", "'unsafe-inline'"],
+        styleSrc: ["'self'", "'unsafe-inline'"],
+        connectSrc: ["'self'", `ws://localhost:${socketPort}`],
+      },
+    },
+  })
+);
 app.use(cors(corsOptions));
 app.use(logger("dev"));
 app.use(bodyParser.json());
@@ -52,7 +65,10 @@ const server = http.createServer(app);
 function handleServerError(error: any) {
   if (error.syscall !== "listen") throw error;
 
-  const bind = typeof expressPort === "string" ? `Pipe ${expressPort}` : `Port ${expressPort}`;
+  const bind =
+    typeof expressPort === "string"
+      ? `Pipe ${expressPort}`
+      : `Port ${expressPort}`;
   switch (error.code) {
     case "EACCES":
       console.error(`${bind} requires elevated privileges`);
