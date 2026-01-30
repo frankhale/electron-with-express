@@ -2,9 +2,8 @@ import { app, globalShortcut, BrowserWindow, ipcMain } from "electron";
 import { Readable } from "stream";
 import { spawn } from "child_process";
 import path from "path";
-import fetch from "node-fetch";
 import { name } from "../package.json";
-import {Socket} from "socket.io";
+import { Socket } from "socket.io";
 //import fs from "fs";
 
 const appName = app.getPath("exe");
@@ -13,7 +12,7 @@ let mainWindow: BrowserWindow | null;
 
 const server = require('http').createServer();
 const io = require('socket.io')(server, {
-  cors: {origin: "*"},
+  cors: { origin: "*" },
   methods: ['GET', 'POST']
 });
 
@@ -126,12 +125,12 @@ app.whenReady().then(() => {
 
   const checkServerRunning = setInterval(() => {
     fetch(expressAppUrl)
-      .then((response) => {
+      .then((response: Response) => {
         if (response.status === 200) {
           clearInterval(checkServerRunning);
           mainWindow!.webContents.send("server-running");
         }
       })
-      .catch(() => {}); // swallow exception
+      .catch(() => { }); // swallow exception
   }, 1000);
 });
