@@ -22,11 +22,12 @@ Press `CommandOrControl+Shift+L` to show the server log:
 
 NOTE: This assumes `electron-packager` is installed globally
 
-## Author
+## Author(s)
 
-Frank Hale &lt;frankhale@gmail.com&gt;
+- Frank Hale &lt;frankhale@gmail.com&gt;
+- Various others from pull requests
 
-Updated on: 15 July 2024
+Updated on: 30 January 2026
 
 ## License
 
