@@ -67,8 +67,8 @@ importers:
         specifier: ^24.10.1
         version: 24.10.9
       electron:
-        specifier: ^40.8.4
-        version: 40.8.4
+        specifier: ^40.8.5
+        version: 40.8.5
       typescript:
         specifier: ^5.7.2
         version: 5.9.3
@@ -284,8 +284,8 @@ packages:
     engines: {node: '>=0.12.18'}
     hasBin: true
 
-  electron@40.8.4:
-    resolution: {integrity: sha512-7AoSakFr+g2CTukHDS79cqNiaWPoD8bQ4kIahwUUVv0O5fy4BfZawVCxOFLc61POq8xDvqMSDKPfeFXK/Coc5g==}
+  electron@40.8.5:
+    resolution: {integrity: sha512-pgTY/VPQKaiU4sTjfU96iyxCXrFm4htVPCMRT4b7q9ijNTRgtLmLvcmzp2G4e7xDrq9p7OLHSmu1rBKFf6Y1/A==}
     engines: {node: '>= 12.20.55'}
     hasBin: true
 
@@ -989,7 +989,7 @@ snapshots:
     dependencies:
       jake: 10.9.4
 
-  electron@40.8.4:
+  electron@40.8.5:
     dependencies:
       '@electron/get': 2.0.3
       '@types/node': 24.10.9
