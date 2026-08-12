@@ -18,7 +18,7 @@
     "pack": "tsc && cd .. && electron-packager ./electron-with-express --icon=./electron-with-express/dist/favicon.ico --ignore=\"^(?!.(node_modules|dist)).(src|screenshots|tsconfig|README|.git)\" --asar.unpack=\".*\\.(node|dll|db)$\" --overwrite"
   },
   "dependencies": {
-    "body-parser": "^2.2.0",
+    "body-parser": "^2.3.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "debug": "^4.3.7",
