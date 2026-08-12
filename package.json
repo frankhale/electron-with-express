@@ -39,7 +39,7 @@
     "@types/http-errors": "^2.0.4",
     "@types/morgan": "^1.9.9",
     "@types/node": "^24.10.1",
-    "electron": "^40.8.5",
+    "electron": "^41.10.3",
     "typescript": "^5.7.2"
   }
 }
